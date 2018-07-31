@@ -1,0 +1,17 @@
+@import './components/RecipeMenu/RecipeMenu.scss';
+@import './components/RecipeItem/RecipeItem.scss';
+@import './components/Button/Button.scss';
+@import './components/CloseButton/CloseButton.scss';
+@import './components/Modal/Modal.scss';
+
+body {
+  background-color: #F0F0F0;
+  font-family: 'Roboto', sans-serif;
+  max-width: 1280px;
+  margin: auto;
+  margin-top: 45px;
+}
+
+.recipes-list {
+  margin-bottom: 18px;
+}

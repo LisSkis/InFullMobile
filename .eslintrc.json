@@ -1,0 +1,90 @@
+{
+  "extends": "airbnb",
+  "rules": {
+     "jsx-a11y/anchor-is-valid": "off",
+     "jsx-a11y/label-has-for": [
+        2,
+        {
+           "required": {
+              "some": [
+                 "nesting",
+                 "id"
+              ]
+           }
+        }
+     ],
+     "jsx-a11y/click-events-have-key-events": [0],
+     "jsx-a11y/no-static-element-interactions": [0],
+     "jsx-a11y/anchor-has-content": [0],
+     "react/destructuring-assignment": [0],
+     "react/prefer-stateless-function": "off",
+     "react/jsx-one-expression-per-line": [0],
+     "indent": [
+        0,
+        3
+     ],
+     "import/no-extraneous-dependencies": 0,
+     "import/extensions": 0,
+     "import/no-unresolved": 0,
+     "no-underscore-dangle": 0,
+     "quotes": 0,
+     "react/jsx-filename-extension": [
+        1,
+        {
+           "extensions": [
+              ".js",
+              ".jsx"
+           ]
+        }
+     ],
+     "react/jsx-indent": [
+        0,
+        3
+     ],
+     "react/jsx-indent-props": [
+        0,
+        3
+     ],
+     "no-plusplus": 0,
+     "class-methods-use-this": 0
+  },
+  "parser": "babel-eslint",
+  "globals": {
+     "FileReader": false,
+     "__DEV__": true,
+     "__dirname": false,
+     "__fbBatchedBridgeConfig": false,
+     "alert": false,
+     "cancelAnimationFrame": false,
+     "cancelIdleCallback": false,
+     "clearImmediate": true,
+     "clearInterval": false,
+     "clearTimeout": false,
+     "console": false,
+     "document": false,
+     "escape": false,
+     "Event": false,
+     "EventTarget": false,
+     "exports": false,
+     "fetch": false,
+     "FormData": false,
+     "global": false,
+     "jest": false,
+     "Map": true,
+     "module": false,
+     "navigator": false,
+     "process": false,
+     "Promise": true,
+     "requestAnimationFrame": true,
+     "requestIdleCallback": true,
+     "require": false,
+     "Set": true,
+     "setImmediate": true,
+     "setInterval": false,
+     "setTimeout": false,
+     "window": true,
+     "XMLHttpRequest": false,
+     "pit": false,
+     "localStorage": false
+  }
+}

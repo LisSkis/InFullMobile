@@ -1,0 +1,62 @@
+.modal-wrapper {
+   display: flex;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 100vh;
+   width: 100vw;
+   background-color: rgba(0,0,0,0.6);
+   opacity: 0;
+   transition: opacity 250ms, visibility 250ms;
+   justify-content: center;
+   visibility: hidden;
+
+   &.active {
+      visibility: visible;
+      opacity: 1;
+   }
+}
+
+.modal {
+   background-color: white;
+   display: inline-block;
+   position: fixed;
+   top: 300px;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 60px;
+   min-width: 700px;
+   min-height: 400px;
+
+   & .modal-header {
+      display: flex;
+      justify-content: space-between;
+
+      & > h1 {
+         margin: 0 0 12px;
+         display: inline-block;
+      }
+   }
+
+   & .name-input {
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 6px;
+      border: 1px solid #F0F0F0;
+   }
+
+   & .ingredients-input {
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 6px;
+      border: 1px solid #F0F0F0;
+      resize: vertical;
+      max-height: 200px;
+      min-height: 100px;
+   }
+
+   & .modal-body {
+      margin-bottom: 16px;
+   }
+}

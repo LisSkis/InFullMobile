@@ -1,0 +1,37 @@
+.recipe-menu-container {
+   overflow: hidden;
+   max-height: 0;
+   transition: max-height 500ms ease-out, padding 500ms ease-out;
+
+   &.active {
+      padding-top: 12px;
+      max-height: 500px;
+   }
+}
+
+.recipe-menu {
+   background-color: white;
+   padding: 24px;
+   border-bottom: 1px solid #F0F0F0;
+   box-sizing: border-box;
+
+   & > h2 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      text-align: center;
+   }
+
+   & .recipe-ingredientsList {
+      margin-bottom: 12px;
+   }
+
+   & .recipe-ingredient {
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid black;
+
+      &:not(:last-child) {
+         border-bottom: 0px;
+      }
+   }
+}
