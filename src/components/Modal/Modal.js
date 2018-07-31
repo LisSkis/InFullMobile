@@ -3,63 +3,64 @@ import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import CloseButton from '../CloseButton/CloseButton';
 
+const buttonTypes = { add: 'Add Recipe', edit: 'Edit Recipe' };
+
+export const modalTypes = { add: 'add', edit: 'edit' };
+
 const Modal = ({
    type,
    visible,
-   nameValue,
-   ingredientsValue,
+   values,
+   header,
    handleClose,
    handleChange,
    handleSubmit,
-}) => (
-   <div className={`modal-wrapper ${visible ? 'active' : ''}`}>
-      <div className={`modal ${visible ? 'active' : ''}`}>
-         <div className="modal-header">
-            {
-               type === 'add' && <h1>Add a Recipe</h1>
-            }
-            {
-               type === 'edit' && <h1>Edit a Recipe</h1>
-            }
-            <CloseButton handleClick={handleClose} />
-         </div>
-         <div className="modal-body">
-            <div className="add-recipe-name-container">
-               <h3>Recipe</h3>
-               <input
-                  className="name-input"
-                  data-name="nameValue"
-                  placeholder="Recipe Name"
-                  value={nameValue}
-                  onChange={handleChange}
-               />
-            </div>
-            <div className="add-recipe-name-container">
-               <h3>Ingredients</h3>
-               <textarea
-                  className="ingredients-input"
-                  data-name="ingredientsValue"
-                  placeholder="Enter Ingredients,Separated,By Commas"
-                  value={ingredientsValue}
-                  onChange={handleChange}
-               />
-            </div>
-         </div>
-         <div className="modal-footer">
-            <Button type="primary" handleClick={handleSubmit}>
-               { type === 'add' ? 'Add Recipe' : 'Edit Recipe' }
-            </Button>
-            <Button handleClick={handleClose}>Close</Button>
-         </div>
+   submitError,
+}) => ([
+   <div className={`modal-wrapper ${visible ? 'active' : ''}`} />,
+   <div className={`modal ${visible ? 'active' : ''}`}>
+      <div className="modal-header">
+         <h1>{header}</h1>
+         <CloseButton handleClick={handleClose} />
       </div>
-   </div>
-);
+      <div className="modal-body">
+         <div className="add-recipe-name-container">
+            <h3>Recipe</h3>
+            <input
+               className="name-input"
+               data-name="name"
+               placeholder="Recipe Name"
+               value={values.name}
+               onChange={handleChange}
+            />
+         </div>
+         <div className="add-recipe-name-container">
+            <h3>Ingredients</h3>
+            <textarea
+               className="ingredients-input"
+               data-name="ingredients"
+               placeholder="Enter Ingredients,Separated,By Commas"
+               value={values.ingredients}
+               onChange={handleChange}
+            />
+         </div>
+         <p className="modal-error">{submitError}</p>
+      </div>
+      <div className="modal-footer">
+         <Button buttonType="primary" handleClick={handleSubmit}>
+            { buttonTypes[type]}
+         </Button>
+         <Button handleClick={handleClose}>Close</Button>
+      </div>
+   </div>,
+]);
 
 Modal.propTypes = {
    type: PropTypes.string.isRequired,
    visible: PropTypes.bool,
-   nameValue: PropTypes.string.isRequired,
-   ingredientsValue: PropTypes.string.isRequired,
+   values: PropTypes.objectOf(PropTypes.string).isRequired,
+   header: PropTypes.string.isRequired,
+   submitError: PropTypes.string,
    handleClose: PropTypes.func.isRequired,
    handleChange: PropTypes.func.isRequired,
    handleSubmit: PropTypes.func.isRequired,
@@ -67,6 +68,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
    visible: false,
+   submitError: '',
 };
 
 export default Modal;

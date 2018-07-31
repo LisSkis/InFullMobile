@@ -1,4 +1,4 @@
-@import './components/RecipeMenu/RecipeMenu.scss';
+@import './components/RecipeIngredients/RecipeIngredients.scss';
 @import './components/RecipeItem/RecipeItem.scss';
 @import './components/Button/Button.scss';
 @import './components/CloseButton/CloseButton.scss';
@@ -10,6 +10,7 @@ body {
   max-width: 1280px;
   margin: auto;
   margin-top: 45px;
+  margin-bottom: 45px;
 }
 
 .recipes-list {

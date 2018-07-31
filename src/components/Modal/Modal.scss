@@ -21,13 +21,19 @@
 .modal {
    background-color: white;
    display: inline-block;
-   position: fixed;
-   top: 300px;
+   position: absolute;
+   top: 100px;
    margin-left: auto;
    margin-right: auto;
    padding: 60px;
    min-width: 700px;
    min-height: 400px;
+   transition: opacity 250ms, visibility 250ms;
+   opacity: 0;
+   visibility: hidden;
+   left: 0;
+   right: 0;
+   max-width: 700px;
 
    & .modal-header {
       display: flex;
@@ -58,5 +64,14 @@
 
    & .modal-body {
       margin-bottom: 16px;
+   }
+
+   & .modal-error {
+      color: red;
+   }
+
+   &.active {
+      visibility: visible;
+      opacity: 1;
    }
 }

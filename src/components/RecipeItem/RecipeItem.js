@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RecipeMenu from '../RecipeMenu/RecipeMenu';
+import _ from 'lodash';
+import RecipeIngredients from '../RecipeIngredients/RecipeIngredients';
 
 class RecipeItem extends Component {
-   handleClick = () => this.props.handleClick(this.props.recipe.id);
+   handleClick = () => {
+      const { handleClick, recipe } = this.props;
+      return handleClick(_.get(recipe, 'id'));
+   }
 
-   handleDeleteClick = () => this.props.handleDeleteClick(this.props.recipe.id);
+   handleDeleteClick = () => {
+      const { handleDeleteClick, recipe } = this.props;
+      return handleDeleteClick(_.get(recipe, 'id'));
+   }
 
-   handleEditClick = () => this.props.handleEditClick(this.props.recipe.id);
+   handleEditClick = () => {
+      const { handleEditClick, recipe } = this.props;
+      return handleEditClick(_.get(recipe, 'id'));
+   }
 
    render() {
-      const {
-         visible,
-         recipe,
-      } = this.props;
+      const { visible, recipe } = this.props;
 
       return (
          <div className="recipe-container">
@@ -25,7 +32,7 @@ class RecipeItem extends Component {
                   {recipe.name}
                </h1>
             </div>
-            <RecipeMenu
+            <RecipeIngredients
                visible={visible}
                ingredients={recipe.ingredients}
                handleDeleteClick={this.handleDeleteClick}

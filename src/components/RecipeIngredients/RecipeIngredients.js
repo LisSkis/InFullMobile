@@ -21,7 +21,7 @@ const RecipeMenu = ({
             ))}
          </div>
          <div className="recipe-buttons-wrapper">
-            <Button type="delete" handleClick={handleDeleteClick}>
+            <Button buttonType="delete" handleClick={handleDeleteClick}>
                Delete
             </Button>
             <Button handleClick={handleEditClick}>

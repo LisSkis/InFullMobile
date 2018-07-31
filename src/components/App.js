@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import uuidV4 from 'uuid/v4';
 
-import Modal from './Modal/Modal';
+import Modal, { modalTypes } from './Modal/Modal';
 import RecipeItem from './RecipeItem/RecipeItem';
 import Button from './Button/Button';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const modalHeaders = { add: 'Add a Recipe', edit: 'Edit a Recipe' };
 
+class App extends Component {
+  state = {
+    recipes: [],
+    recipeOpened: false,
+    modalOpened: false,
+    modalType: modalTypes.add,
+    values: {
+      name: '',
+      ingredients: '',
+    },
+    recipeBeingEdited: '',
+    submitError: '',
+  };
+
+  componentDidMount() {
     const recipes = localStorage.getItem('recipes') || '[]';
 
-    this.state = {
-      recipes: JSON.parse(recipes),
-      recipeOpened: false,
-      modalOpened: false,
-      modalType: 'add',
-      nameValue: '',
-      ingredientsValue: '',
-      recipeBeingEdited: '',
-    };
+    try {
+      this.setState({
+        recipes: JSON.parse(recipes),
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
-  addRecipe = (nameValue, ingredients, recipes) => {
+  addRecipe = (nameValue, ingredients) => {
+    const { recipes } = this.state;
     recipes.push({
       id: uuidV4(),
       name: nameValue,
@@ -32,48 +44,79 @@ class App extends Component {
     localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({
       recipes,
-      nameValue: '',
-      ingredientsValue: '',
+      values: {
+        name: '',
+        ingredients: '',
+      },
       modalOpened: false,
+      submitError: '',
     });
   }
 
-  editRecipe = (prevRecipes, recipeBeingEdited, nameValue, ingredients) => {
-    const recipes = [...prevRecipes];
+  editRecipe = (recipeBeingEdited, nameValue, ingredients) => {
+    const { recipes } = this.state;
     const index = recipes.findIndex(recipe => recipe.id === recipeBeingEdited);
-    recipes[index].name = nameValue;
-    recipes[index].ingredients = ingredients;
+    recipes[index] = Object.assign(recipes[index], { name: nameValue, ingredients });
 
     localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({
       recipes,
-      nameValue: '',
-      ingredientsValue: '',
+      values: {
+        name: '',
+        ingredients: '',
+      },
       modalOpened: false,
+      submitError: '',
     });
   }
 
   handleSubmit = () => {
     const {
-      nameValue,
-      ingredientsValue,
-      recipes,
+      values,
       modalType,
       recipeBeingEdited,
     } = this.state;
 
-    const ingredientsArray = ingredientsValue.split(',');
-    const ingredients = [];
-    ingredientsArray.forEach(ingredient => ingredient.trim().length && ingredients.push({
-      id: uuidV4(),
-      name: ingredient.trim(),
-    }));
+    let ingredients = [];
 
-    if (modalType === 'add') {
-      this.addRecipe(nameValue, ingredients, recipes);
-    } else {
-      this.editRecipe(recipes, recipeBeingEdited, nameValue, ingredients);
+    if (values.ingredients.split(',').length > 1) {
+      ingredients = values.ingredients.split(',').reduce((reduced, ingredient) => {
+        if (typeof reduced !== 'object') {
+          const reducedIngredients = [];
+          if (reduced.trim().length) {
+            reducedIngredients.push({ id: uuidV4(), name: reduced.trim() });
+          }
+
+          if (ingredient.trim().length) {
+            reducedIngredients.push({ id: uuidV4(), name: ingredient.trim() });
+          }
+
+          return reducedIngredients;
+        }
+
+        if (reduced && ingredient.trim().length) {
+          return reduced.concat({ id: uuidV4(), name: ingredient.trim() });
+        }
+
+        return reduced;
+      });
+    } else if (values.ingredients.split(',').length === 1) {
+      ingredients = [{ id: uuidV4(), name: values.ingredients }];
     }
+
+    if (!values.name) {
+      return this.setState({ submitError: 'Recipe Name is required' });
+    }
+
+    if (!ingredients.length) {
+      return this.setState({ submitError: 'Ingredients are required' });
+    }
+
+    if (modalType === modalTypes.add) {
+      return this.addRecipe(values.name, ingredients);
+    }
+
+    return this.editRecipe(recipeBeingEdited, values.name, ingredients);
   }
 
   handleDelete = (id) => {
@@ -85,20 +128,31 @@ class App extends Component {
     this.setState({ recipes });
   }
 
-  handleChange = e => this.setState({ [e.target.dataset.name]: e.target.value });
+  handleChange = (e) => {
+    const newValue = { [e.target.dataset.name]: e.target.value };
+    return this.setState(prevState => ({
+      values: {
+        ...prevState.values,
+        ...newValue,
+      },
+    }));
+  }
 
   handleEditClick = (id) => {
     const { recipes } = this.state;
     const index = recipes.findIndex(recipe => recipe.id === id);
     const ingredientsArray = recipes[index].ingredients.map(ingredient => ingredient.name);
-    const ingredientsValue = ingredientsArray.join(', ');
+    const ingredients = ingredientsArray.join(', ');
 
     this.setState({
       modalOpened: true,
-      modalType: 'edit',
-      nameValue: recipes[index].name,
-      ingredientsValue,
+      modalType: modalTypes.edit,
+      values: {
+        name: recipes[index].name,
+        ingredients,
+      },
       recipeBeingEdited: id,
+      submitError: '',
     });
   }
 
@@ -106,9 +160,9 @@ class App extends Component {
     recipeOpened: prevState.recipeOpened === id ? false : id,
   }));
 
-  handleAddRecipeClick = () => this.setState({ modalOpened: true, modalType: 'add' });
+  handleAddRecipeClick = () => this.setState({ modalOpened: true, modalType: modalTypes.add, submitError: '' });
 
-  closeModal = () => this.setState({ modalOpened: false, nameValue: '', ingredientsValue: '' });
+  closeModal = () => this.setState({ modalOpened: false, values: { name: '', ingredients: '' }, submitError: '' });
 
   render() {
     const {
@@ -116,8 +170,8 @@ class App extends Component {
       recipeOpened,
       modalType,
       modalOpened,
-      nameValue,
-      ingredientsValue,
+      values,
+      submitError,
     } = this.state;
 
     return (
@@ -134,17 +188,18 @@ class App extends Component {
             />
           ))}
         </div>
-        <Button type="primary" handleClick={this.handleAddRecipeClick}>
+        <Button buttonType="primary" handleClick={this.handleAddRecipeClick}>
           Add Recipe
         </Button>
         <Modal
           type={modalType}
           visible={modalOpened}
+          header={modalHeaders[modalType]}
           handleClose={this.closeModal}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
-          nameValue={nameValue}
-          ingredientsValue={ingredientsValue}
+          values={values}
+          submitError={submitError}
         />
       </div>
     );
