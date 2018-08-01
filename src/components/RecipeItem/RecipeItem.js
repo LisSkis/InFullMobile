@@ -6,11 +6,28 @@ import RecipeIngredients from '../RecipeIngredients/RecipeIngredients';
 class RecipeItem extends Component {
    opened = this.props.recipeOpened === _.get(this.props, 'item.id');
 
-   componentWillReceiveProps(nextProps) {
-      const opened = nextProps.recipeOpened === _.get(this.props, 'item.id');
+   name = this.props.item.name;
+
+   ingredients = this.props.item.ingredients;
+
+   shouldComponentUpdate(nextProps) {
+      let shouldUpdate = false;
+      const { item, recipeOpened } = nextProps;
+      const opened = nextProps.recipeOpened === _.get(item, 'id');
       if (opened !== this.opened) {
-         this.opened = opened;
+         this.opened = recipeOpened === _.get(item, 'id');
+         shouldUpdate = true;
       }
+      if (this.name !== item.name) {
+         this.name = _.get(item, 'name');
+         shouldUpdate = true;
+      }
+      if (JSON.stringify(this.ingredients) !== JSON.stringify(item.ingredients)) {
+         this.ingredients = _.get(item, 'ingredients');
+         shouldUpdate = true;
+      }
+
+      return shouldUpdate;
    }
 
    handleClick = () => {
@@ -29,8 +46,6 @@ class RecipeItem extends Component {
    }
 
    render() {
-      const { item } = this.props;
-
       return (
          <div className="recipe-container">
             <div
@@ -38,12 +53,12 @@ class RecipeItem extends Component {
                onClick={this.handleClick}
             >
                <h1 className="recipe-name">
-                  {item.name}
+                  {this.name}
                </h1>
             </div>
             <RecipeIngredients
                visible={this.opened}
-               ingredients={item.ingredients}
+               ingredients={this.ingredients}
                handleDeleteClick={this.handleDeleteClick}
                handleEditClick={this.handleEditClick}
             />
