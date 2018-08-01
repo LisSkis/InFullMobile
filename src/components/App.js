@@ -80,26 +80,17 @@ class App extends Component {
     let ingredients = [];
 
     if (values.ingredients.split(',').length > 1) {
-      ingredients = values.ingredients.split(',').reduce((reduced, ingredient) => {
-        if (typeof reduced !== 'object') {
-          const reducedIngredients = [];
-          if (reduced.trim().length) {
-            reducedIngredients.push({ id: uuidV4(), name: reduced.trim() });
+      ingredients = values.ingredients.split(',').filter(ingredient => ingredient.trim().length)
+        .reduce((reduced, ingredient) => {
+          if (typeof reduced !== 'object') {
+            return [
+              { id: uuidV4(), name: reduced.trim() },
+              { id: uuidV4(), name: ingredient.trim() },
+            ];
           }
 
-          if (ingredient.trim().length) {
-            reducedIngredients.push({ id: uuidV4(), name: ingredient.trim() });
-          }
-
-          return reducedIngredients;
-        }
-
-        if (reduced && ingredient.trim().length) {
           return reduced.concat({ id: uuidV4(), name: ingredient.trim() });
-        }
-
-        return reduced;
-      });
+        });
     } else if (values.ingredients.split(',').length === 1) {
       ingredients = [{ id: uuidV4(), name: values.ingredients }];
     }

@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # parsed styles
-./src/index.css
+/src/index.css
 
 # dependencies
 /node_modules
