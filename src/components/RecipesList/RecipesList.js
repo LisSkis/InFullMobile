@@ -12,7 +12,7 @@ class RecipesList extends PureComponent {
          handleDelete,
          handleEditClick,
       } = this.props;
-      console.log('a');
+
       return (
          <div className="recipes-list">
             <List data={recipes}>

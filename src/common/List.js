@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const List = ({ data, children }) => data.map((item) => {
-   const childrenWithProps = React.cloneElement(children, { key: item.id, item });
-   return childrenWithProps;
-});
+const List = ({ data, children }) => data
+   .map(item => React.cloneElement(children, { key: item.id, item }));
 
 List.propTypes = {
    data: PropTypes.arrayOf(PropTypes.any).isRequired,
