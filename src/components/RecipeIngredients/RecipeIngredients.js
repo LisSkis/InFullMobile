@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
+import Ingredient from '../Ingredient/Ingredient';
+import List from '../../common/List';
 
-const RecipeMenu = ({
+const RecipeIngredients = ({
    visible,
    ingredients,
    handleDeleteClick,
@@ -14,11 +16,7 @@ const RecipeMenu = ({
             Ingredients
          </h2>
          <div className="recipe-ingredientsList">
-            {ingredients.map(ingredient => (
-               <div className="recipe-ingredient" key={ingredient.id}>
-                  {ingredient.name}
-               </div>
-            ))}
+            <List data={ingredients}><Ingredient /></List>
          </div>
          <div className="recipe-buttons-wrapper">
             <Button buttonType="delete" handleClick={handleDeleteClick}>
@@ -32,16 +30,16 @@ const RecipeMenu = ({
    </div>
 );
 
-RecipeMenu.propTypes = {
+RecipeIngredients.propTypes = {
    visible: PropTypes.bool,
    ingredients: PropTypes.arrayOf(PropTypes.object),
    handleDeleteClick: PropTypes.func.isRequired,
    handleEditClick: PropTypes.func.isRequired,
 };
 
-RecipeMenu.defaultProps = {
+RecipeIngredients.defaultProps = {
    visible: false,
    ingredients: [],
 };
 
-export default RecipeMenu;
+export default RecipeIngredients;

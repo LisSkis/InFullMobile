@@ -17,8 +17,8 @@ const Modal = ({
    handleSubmit,
    submitError,
 }) => ([
-   <div className={`modal-wrapper ${visible ? 'active' : ''}`} />,
-   <div className={`modal ${visible ? 'active' : ''}`}>
+   <div className={`modal-wrapper ${visible ? 'active' : ''}`} key="wrapper" />,
+   <div className={`modal ${visible ? 'active' : ''}`} key="modal">
       <div className="modal-header">
          <h1>{header}</h1>
          <CloseButton handleClick={handleClose} />

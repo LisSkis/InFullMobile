@@ -6,6 +6,8 @@
    cursor: pointer;
    transition: background-color 500ms, border 500ms, color 250ms;
    margin-right: 12px;
+   font-size: 1rem;
+   outline: none;
 
    &:hover {
       background-color: black;

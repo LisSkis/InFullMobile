@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuidV4 from 'uuid/v4';
 
 import Modal, { modalTypes } from './Modal/Modal';
-import RecipeItem from './RecipeItem/RecipeItem';
+import RecipesList from './RecipesList/RecipesList';
 import Button from './Button/Button';
 
 const modalHeaders = { add: 'Add a Recipe', edit: 'Edit a Recipe' };
@@ -167,18 +167,13 @@ class App extends Component {
 
     return (
       <div>
-        <div className="recipes-list">
-          {recipes.map(recipe => (
-            <RecipeItem
-              key={recipe.id}
-              visible={recipeOpened === recipe.id}
-              recipe={recipe}
-              handleClick={this.handleRecipeClick}
-              handleDeleteClick={this.handleDelete}
-              handleEditClick={this.handleEditClick}
-            />
-          ))}
-        </div>
+        <RecipesList
+          recipes={recipes}
+          recipeOpened={recipeOpened}
+          handleRecipeClick={this.handleRecipeClick}
+          handleDelete={this.handleDelete}
+          handleEditClick={this.handleEditClick}
+        />
         <Button buttonType="primary" handleClick={this.handleAddRecipeClick}>
           Add Recipe
         </Button>

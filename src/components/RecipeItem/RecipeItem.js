@@ -4,37 +4,46 @@ import _ from 'lodash';
 import RecipeIngredients from '../RecipeIngredients/RecipeIngredients';
 
 class RecipeItem extends Component {
+   opened = this.props.recipeOpened === _.get(this.props, 'item.id');
+
+   componentWillReceiveProps(nextProps) {
+      const opened = nextProps.recipeOpened === _.get(this.props, 'item.id');
+      if (opened !== this.opened) {
+         this.opened = opened;
+      }
+   }
+
    handleClick = () => {
-      const { handleClick, recipe } = this.props;
-      return handleClick(_.get(recipe, 'id'));
+      const { handleClick, item } = this.props;
+      return handleClick(_.get(item, 'id'));
    }
 
    handleDeleteClick = () => {
-      const { handleDeleteClick, recipe } = this.props;
-      return handleDeleteClick(_.get(recipe, 'id'));
+      const { handleDeleteClick, item } = this.props;
+      return handleDeleteClick(_.get(item, 'id'));
    }
 
    handleEditClick = () => {
-      const { handleEditClick, recipe } = this.props;
-      return handleEditClick(_.get(recipe, 'id'));
+      const { handleEditClick, item } = this.props;
+      return handleEditClick(_.get(item, 'id'));
    }
 
    render() {
-      const { visible, recipe } = this.props;
+      const { item } = this.props;
 
       return (
          <div className="recipe-container">
             <div
-               className={`recipe ${visible ? 'active' : ''}`}
+               className={`recipe ${this.opened ? 'active' : ''}`}
                onClick={this.handleClick}
             >
                <h1 className="recipe-name">
-                  {recipe.name}
+                  {item.name}
                </h1>
             </div>
             <RecipeIngredients
-               visible={visible}
-               ingredients={recipe.ingredients}
+               visible={this.opened}
+               ingredients={item.ingredients}
                handleDeleteClick={this.handleDeleteClick}
                handleEditClick={this.handleEditClick}
             />
@@ -44,15 +53,16 @@ class RecipeItem extends Component {
 }
 
 RecipeItem.propTypes = {
-   visible: PropTypes.bool,
-   recipe: PropTypes.objectOf(PropTypes.any).isRequired,
+   recipeOpened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+   item: PropTypes.objectOf(PropTypes.any),
    handleClick: PropTypes.func.isRequired,
    handleEditClick: PropTypes.func.isRequired,
    handleDeleteClick: PropTypes.func.isRequired,
 };
 
 RecipeItem.defaultProps = {
-   visible: false,
+   recipeOpened: false,
+   item: {},
 };
 
 export default RecipeItem;

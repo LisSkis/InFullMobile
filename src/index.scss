@@ -1,5 +1,6 @@
 @import './components/RecipeIngredients/RecipeIngredients.scss';
 @import './components/RecipeItem/RecipeItem.scss';
+@import './components/RecipesList/RecipesList.scss';
 @import './components/Button/Button.scss';
 @import './components/CloseButton/CloseButton.scss';
 @import './components/Modal/Modal.scss';
@@ -11,8 +12,4 @@ body {
   margin: auto;
   margin-top: 45px;
   margin-bottom: 45px;
-}
-
-.recipes-list {
-  margin-bottom: 18px;
 }
