@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import List from '../../common/List';
 import RecipeItem from '../RecipeItem/RecipeItem';
 
-const RecipesList = ({
-   recipes,
-   recipeOpened,
-   handleRecipeClick,
-   handleDelete,
-   handleEditClick,
-}) => (
-   <div className="recipes-list">
-      <List data={recipes}>
-         <RecipeItem
-            handleClick={handleRecipeClick}
-            handleDeleteClick={handleDelete}
-            handleEditClick={handleEditClick}
-            recipeOpened={recipeOpened}
-         />
-      </List>
-   </div>
-);
+class RecipesList extends PureComponent {
+   render() {
+      const {
+         recipes,
+         recipeOpened,
+         handleRecipeClick,
+         handleDelete,
+         handleEditClick,
+      } = this.props;
+      console.log('a');
+      return (
+         <div className="recipes-list">
+            <List data={recipes}>
+               <RecipeItem
+                  handleClick={handleRecipeClick}
+                  handleDeleteClick={handleDelete}
+                  handleEditClick={handleEditClick}
+                  recipeOpened={recipeOpened}
+               />
+            </List>
+         </div>
+      );
+   }
+}
 
 RecipesList.propTypes = {
    recipes: PropTypes.arrayOf(PropTypes.object),

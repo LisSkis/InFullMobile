@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import uuidV4 from 'uuid/v4';
 
 import Modal, { modalTypes } from './Modal/Modal';
@@ -7,7 +7,7 @@ import Button from './Button/Button';
 
 const modalHeaders = { add: 'Add a Recipe', edit: 'Edit a Recipe' };
 
-class App extends Component {
+class App extends PureComponent {
   state = {
     recipes: [],
     recipeOpened: false,
@@ -43,7 +43,7 @@ class App extends Component {
 
     this.saveToStorage(recipes);
     this.setState({
-      recipes,
+      recipes: [...recipes],
       values: {
         name: '',
         ingredients: '',
@@ -60,7 +60,7 @@ class App extends Component {
 
     this.saveToStorage(recipes);
     this.setState({
-      recipes,
+      recipes: [...recipes],
       values: {
         name: '',
         ingredients: '',
@@ -105,7 +105,7 @@ class App extends Component {
     recipes.splice(index, 1);
 
     this.saveToStorage(recipes);
-    this.setState({ recipes });
+    this.setState({ recipes: [...recipes] });
   }
 
   handleChange = (e) => {
