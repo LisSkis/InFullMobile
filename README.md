@@ -11,3 +11,6 @@ User Stories:
 * I can edit these recipes.
 * I can delete these recipes.
 * All new recipes I add are saved in my browser's local storage. If I refresh the page, these recipes will still be there
+
+# How to run
+At the beginning run `npm install` or `npm i`, after that finishes use `npm start` to start application.

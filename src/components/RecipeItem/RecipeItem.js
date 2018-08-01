@@ -15,17 +15,16 @@ class RecipeItem extends Component {
       const { item, recipeOpened } = nextProps;
       const opened = nextProps.recipeOpened === _.get(item, 'id');
       if (opened !== this.opened) {
-         this.opened = recipeOpened === _.get(item, 'id');
+         shouldUpdate = true;
+      } else if (this.name !== item.name) {
+         shouldUpdate = true;
+      } else if (JSON.stringify(this.ingredients) !== JSON.stringify(item.ingredients)) {
          shouldUpdate = true;
       }
-      if (this.name !== item.name) {
-         this.name = _.get(item, 'name');
-         shouldUpdate = true;
-      }
-      if (JSON.stringify(this.ingredients) !== JSON.stringify(item.ingredients)) {
-         this.ingredients = _.get(item, 'ingredients');
-         shouldUpdate = true;
-      }
+
+      this.opened = recipeOpened === _.get(item, 'id');
+      this.name = _.get(item, 'name');
+      this.ingredients = _.get(item, 'ingredients');
 
       return shouldUpdate;
    }
