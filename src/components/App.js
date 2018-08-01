@@ -77,23 +77,10 @@ class App extends Component {
       recipeBeingEdited,
     } = this.state;
 
-    let ingredients = [];
-
-    if (values.ingredients.split(',').length > 1) {
-      ingredients = values.ingredients.split(',').filter(ingredient => ingredient.trim().length)
-        .reduce((reduced, ingredient) => {
-          if (typeof reduced !== 'object') {
-            return [
-              { id: uuidV4(), name: reduced.trim() },
-              { id: uuidV4(), name: ingredient.trim() },
-            ];
-          }
-
-          return reduced.concat({ id: uuidV4(), name: ingredient.trim() });
-        });
-    } else if (values.ingredients.split(',').length === 1) {
-      ingredients = [{ id: uuidV4(), name: values.ingredients }];
-    }
+    const ingredients = values.ingredients.split(',').filter(ingredient => ingredient.trim().length)
+      .reduce(
+        (reduced, ingredient) => reduced.concat({ id: uuidV4(), name: ingredient.trim() }), [],
+      );
 
     if (!values.name) {
       return this.setState({ submitError: 'Recipe Name is required' });

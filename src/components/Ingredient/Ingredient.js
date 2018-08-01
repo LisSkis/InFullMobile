@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Ingredient = ({ item }) => (
-   <div className="recipe-ingredient" key={item.id}>
+   <div className="recipe-ingredient">
       {item.name}
    </div>
 );
