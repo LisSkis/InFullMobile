@@ -41,7 +41,7 @@ class App extends Component {
       ingredients,
     });
 
-    localStorage.setItem('recipes', JSON.stringify(recipes));
+    this.saveToStorage(recipes);
     this.setState({
       recipes,
       values: {
@@ -58,7 +58,7 @@ class App extends Component {
     const index = recipes.findIndex(recipe => recipe.id === recipeBeingEdited);
     recipes[index] = Object.assign(recipes[index], { name: nameValue, ingredients });
 
-    localStorage.setItem('recipes', JSON.stringify(recipes));
+    this.saveToStorage(recipes);
     this.setState({
       recipes,
       values: {
@@ -110,12 +110,14 @@ class App extends Component {
     return this.editRecipe(recipeBeingEdited, values.name, ingredients);
   }
 
+  saveToStorage = recipes => localStorage.setItem('recipes', JSON.stringify(recipes));
+
   handleDelete = (id) => {
     const { recipes } = this.state;
     const index = recipes.findIndex(recipe => recipe.id === id);
     recipes.splice(index, 1);
 
-    localStorage.setItem('recipes', JSON.stringify(recipes));
+    this.saveToStorage(recipes);
     this.setState({ recipes });
   }
 
